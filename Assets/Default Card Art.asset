@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069ef63ff3fac6647b173d11a2b5d169, type: 3}
+  m_Name: Default Card Art
+  m_EditorClassIdentifier: 
+  cardType: 0
+  sprites:
+  - {fileID: 21300000, guid: 34ba87076ed28e841b9e0d2655c51a24, type: 3}
+  - {fileID: 21300000, guid: d0b5974bcc4c9654eb870b4758dc7e3b, type: 3}
+  - {fileID: 21300000, guid: 6e429f60bc1e2e04bab589adb20e9928, type: 3}
+  - {fileID: 21300000, guid: 1ffcebb27fba232419c86132a468f7e0, type: 3}
