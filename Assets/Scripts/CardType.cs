@@ -3,5 +3,6 @@
     Teleport,
     Pushback,
     Swipe,
-    Slash
+    Slash,
+    Bomb
 }

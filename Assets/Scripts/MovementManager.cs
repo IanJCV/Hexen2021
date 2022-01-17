@@ -24,6 +24,7 @@ public class MovementManager
         moves.Add(CardType.Swipe, new SwipeMove(_grid, _board));
         moves.Add(CardType.Slash, new SlashMove(_grid, _board));
         moves.Add(CardType.Pushback, new PushbackMove(_grid, _board));
+        moves.Add(CardType.Bomb, new BombMove(_grid, _board));
     }
 
 

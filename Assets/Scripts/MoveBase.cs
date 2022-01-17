@@ -180,6 +180,21 @@ public abstract class MoveBase
             return this;  
     }
 
+    public MoveBase GetNeighbors(Hex hex)
+    {
+        _grid.TryGetCoordinateOf(hex, out var position);
+        _validPositions.Add(hex);
+
+        for (int i = 0; i < 6; i++)
+        {
+            var h = HexCoords.Neighbour(position, i);
+            _grid.TryGetPositionAt(h, out var nPos);
+            _validPositions.Add(nPos);
+        }
+
+        return this;
+    }
+
 }
 
 public class TeleportMove : MoveBase
@@ -404,30 +419,21 @@ public class BombMove : MoveBase
             {
                 b.Take(piece);
             }
+            g.DestroyHex(p);
         }
     }
 
     public override List<Hex> ValidIsolatedPositions(Card c, Hex position, Board b, Grid g)
     {
         return new BombMove(g, b)
-       .IsolatedNorthEast(position)
-       .IsolatedNorthWest(position)
-       .IsolatedSouthEast(position)
-       .IsolatedSouthWest(position)
-       .IsolatedEast(position)
-       .IsolatedWest(position)
-       .Collect();
+            .GetNeighbors(position)
+            .Collect();
     }
 
     public override List<Hex> ValidPositions(Card c, Hex position, Board b, Grid g)
     {
         return new BombMove(g, b)
-       .NorthEast(position)
-       .NorthWest(position)
-       .SouthEast(position)
-       .SouthWest(position)
-       .East(position)
-       .West(position)
-       .Collect();
+            .GetNeighbors(position)
+            .Collect();
     }
 }
