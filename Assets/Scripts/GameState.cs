@@ -57,12 +57,17 @@ public class StartScreenState : GameState
 {
     public StartScreenState(GameLoop loop) : base(loop)
     {
+
+        loop.OnGameStarted.AddListener(() =>
+        {
+            OnChange(new PlayScreenState(loop));
+            loop.OnGameStarted.RemoveAllListeners();
+        });
     }
 
     protected override void Activate()
     {
-        Debug.Log("Start Screen State Activated. Switching to play mode.");
-        OnChange(new PlayScreenState(_loop));
+
     }
 
     protected override void Deactivate()
@@ -125,7 +130,7 @@ public class PlayScreenState : GameState
         {
             card.dragBeginEvent.AddListener(BeginCardDrag);
             card.dragEndEvent.AddListener(EndCardDrag);
-            Debug.Log($"Registered card of type {card.cardType}.");
+            //Debug.Log($"Registered card of type {card.cardType}.");
         });
 
         ConnectHexes();
@@ -164,15 +169,15 @@ public class PlayScreenState : GameState
                 var p = _loop.InstantiateObject(_settings.piecePrefab).GetComponent<Piece>();
                 _board.Place(p, h);
             }
-            else
-                Debug.Log("Failed placing a piece!");
+            //else
+                //Debug.Log("Failed placing a piece!");
         }
 
         player = _loop.InstantiateObject(_settings.playerPrefab).GetComponent<PlayerPiece>();
         _grid.TryGetPositionAt(new HexCoords(0, 0), out var zeroHex);
         _board.Place(player, zeroHex);
-        Debug.Log($"Generated {piecesAmount} pieces.");
-        Debug.Log($"Generated player piece.");
+        //Debug.Log($"Generated {piecesAmount} pieces.");
+        //Debug.Log($"Generated player piece.");
     }
 
     public Card CreateNewCard(CardType type)
@@ -313,7 +318,8 @@ public class EndScreenState : GameState
 
     protected override void Activate()
     {
-        Debug.Log("Game over. Restarting.");
+        _loop.OnGameEnd();
+        Debug.Log("player tasks");
     }
 
     protected override void Deactivate()
