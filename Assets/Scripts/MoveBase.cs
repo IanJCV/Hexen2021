@@ -77,7 +77,7 @@ public abstract class MoveBase
     }
     public MoveBase Move(int qOffset, int rOffset, int sOffset, Hex hex, int numTiles = int.MaxValue)
     {
-        if (!_board.TryGetHexOf(GameLoop.Instance.player, out var position))
+        if (!_board.TryGetHexOf(PlayScreenState.Instance.player, out var position))
             return this;
 
         if (!_grid.TryGetCoordinateOf(position, out var coordinate))
@@ -142,7 +142,7 @@ public abstract class MoveBase
 
     public MoveBase IsolatedMove(int qOffset, int rOffset, int sOffset, Hex hex, int numTiles = int.MaxValue)
     {
-        if (!_board.TryGetHexOf(GameLoop.Instance.player, out var position))
+        if (!_board.TryGetHexOf(PlayScreenState.Instance.player, out var position))
             return this;
 
         if (!_grid.TryGetCoordinateOf(position, out var coordinate))
@@ -193,14 +193,14 @@ public class TeleportMove : MoveBase
     public override void ExecuteMove(Card c, List<Hex> positions, Board b, Grid g)
     {
         var hex = positions[0];
-        var player = GameLoop.Instance.player;
+        var player = PlayScreenState.Instance.player;
 
         b.Move(player, hex);
     }
 
     public override List<Hex> ValidIsolatedPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerHex);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerHex);
         return new TeleportMove(g, b).Single(position)
             .Collect()
             .Where(p => p != playerHex)
@@ -210,7 +210,7 @@ public class TeleportMove : MoveBase
 
     public override List<Hex> ValidPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerHex);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerHex);
         return new TeleportMove(g, b)
             .Any()
             .Collect()
@@ -240,7 +240,7 @@ public class SwipeMove : MoveBase
 
     public override List<Hex> ValidIsolatedPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerPos);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerPos);
         g.TryGetCoordinateOf(playerPos, out var playerCoords);
         g.TryGetCoordinateOf(position, out var posCoords);
         g.TryGetPositionAt(HexCoords.RotateHexClockwise(playerCoords, posCoords), out var clockwise);
@@ -261,7 +261,7 @@ public class SwipeMove : MoveBase
 
     public override List<Hex> ValidPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerPos);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerPos);
         return new SwipeMove(g, b)
             .NorthEast(position, 1)
             .NorthWest(position, 1)
@@ -329,7 +329,7 @@ public class PushbackMove : MoveBase
 
     public override void ExecuteMove(Card c, List<Hex> positions, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var hex);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var hex);
         g.TryGetCoordinateOf(hex, out var playerCoords);
 
 
@@ -354,7 +354,7 @@ public class PushbackMove : MoveBase
 
     public override List<Hex> ValidIsolatedPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerPos);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerPos);
         g.TryGetCoordinateOf(playerPos, out var playerCoords);
         g.TryGetCoordinateOf(position, out var posCoords);
         g.TryGetPositionAt(HexCoords.RotateHexClockwise(playerCoords, posCoords), out var clockwise);
@@ -374,7 +374,7 @@ public class PushbackMove : MoveBase
 
     public override List<Hex> ValidPositions(Card c, Hex position, Board b, Grid g)
     {
-        b.TryGetHexOf(GameLoop.Instance.player, out var playerPos);
+        b.TryGetHexOf(PlayScreenState.Instance.player, out var playerPos);
         return new SwipeMove(g, b)
             .NorthEast(position, 1)
             .NorthWest(position, 1)

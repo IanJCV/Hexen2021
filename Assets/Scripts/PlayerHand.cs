@@ -35,7 +35,7 @@ public class PlayerHand
                 .Cast<CardType>()
                 .Max() + 1);
 
-            var c = GameLoop.Instance.CreateNewCard(type);
+            var c = PlayScreenState.Instance.CreateNewCard(type);
 
             list.Add(c);
             generatedCards++;
