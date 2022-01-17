@@ -39,7 +39,6 @@ public class PlayerHand
 
             list.Add(c);
             generatedCards++;
-            Debug.Log($"generated {c.cardType}");
         }
         return list;
     }

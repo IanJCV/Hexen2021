@@ -90,3 +90,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardType: 0
   artSet: {fileID: 11400000, guid: b0aa804c2def9544db3c1f0864573076, type: 2}
+  dragColor: {r: 1, g: 1, b: 1, a: 0.32941177}

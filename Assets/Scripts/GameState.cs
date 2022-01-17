@@ -200,7 +200,6 @@ public class PlayScreenState : GameState
     private void BeginCardDrag(Card card)
     {
         _currentCard = card;
-        //cardHolder.GetComponentInParent<CanvasGroup>().blocksRaycasts = false;
         if (_movementManager.moves.TryGetValue(_currentCard.cardType, out var move))
         {
             var positions = move.ValidPositions(_currentCard, _currentHex, _board, _grid);
@@ -232,7 +231,6 @@ public class PlayScreenState : GameState
             move.ExecuteMove(_currentCard, positions, _board, _grid);
         }
 
-        Debug.Log("dropped card");
         _playerHand.RemoveCard(_currentCard);
         _currentCard.dragBeginEvent.RemoveAllListeners();
         _currentCard.dragEndEvent.RemoveAllListeners();
@@ -254,9 +252,13 @@ public class PlayScreenState : GameState
         if (_movementManager.moves.TryGetValue(_currentCard.cardType, out var move))
         {
             var positions = move.ValidIsolatedPositions(_currentCard, e.Hex, _board, _grid);
-            foreach (var p in positions)
+            
+            if (positions.Count > 0)
             {
-                p.Activate();
+                foreach (var p in positions)
+                {
+                    p.Activate();
+                }
             }
         }
 
@@ -288,6 +290,8 @@ public class PlayScreenState : GameState
     private void OnPieceTaken(object sender, TakenEventArgs e)
     {
         e.Piece.gameObject.SetActive(false);
+        if (e.Piece == player)
+            EndGame();
     }
 
     private void OnPiecePlaced(object sender, PlacedEventArgs e)

@@ -18,29 +18,43 @@ public class Card : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHand
 
     public CardArtSet artSet;
 
+    private Image image;
+    private Color defaultColor;
+
+    [SerializeField]
+    private Color dragColor;
+
+
+
     private void Awake()
     {
         dragBeginEvent = new CardDragEvent();
         dragEndEvent = new CardDragEvent();
         _rectTransform = GetComponent<RectTransform>();
-        initialPos = _rectTransform.anchoredPosition;
+        image = GetComponent<Image>();
+        defaultColor = image.color;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         dragBeginEvent.Invoke(this);
-        //GetComponent<Image>().raycastTarget = false;
+        initialPos = _rectTransform.anchoredPosition;
+        image.raycastTarget = false;
+        image.color = dragColor;
+
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         dragEndEvent.Invoke(this);
-        //_rectTransform.position = initialPos;
+        _rectTransform.anchoredPosition = initialPos;
+        image.raycastTarget = true;
+        image.color = defaultColor;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //_rectTransform.position = eventData.position;
+        _rectTransform.position = eventData.position;
     }
 
     internal void Destroy() => Destroy(gameObject);

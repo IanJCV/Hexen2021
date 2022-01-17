@@ -182,6 +182,9 @@ public abstract class MoveBase
 
     public MoveBase GetNeighbors(Hex hex)
     {
+        if (hex == null)
+            return this;
+
         _grid.TryGetCoordinateOf(hex, out var position);
         _validPositions.Add(hex);
 
@@ -189,7 +192,8 @@ public abstract class MoveBase
         {
             var h = HexCoords.Neighbour(position, i);
             _grid.TryGetPositionAt(h, out var nPos);
-            _validPositions.Add(nPos);
+            if (nPos != null)
+                _validPositions.Add(nPos);
         }
 
         return this;
