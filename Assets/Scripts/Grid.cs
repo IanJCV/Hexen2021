@@ -4,12 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class DestructionEventArgs : EventArgs
+{
+    public Hex Hex { get; }
+
+    public DestructionEventArgs(Hex hex)
+    {
+        Hex = hex;
+    }
+}
+
 public class Grid
 {
 
     public int Size { get; }
     public float HexRadius { get; }
     public float Offset { get; }
+
+    public event EventHandler<DestructionEventArgs> OnDestruction;
+    public event EventHandler<DestructionEventArgs> OnReactivation;
 
     public Grid(int size, float hexRadius, float offset)
     {
@@ -74,6 +87,24 @@ public class Grid
         }
     }
 
+    // ===================== BOMB STUFF =============================
+
+    public void ReactivateHex(Hex hex)
+    {
+        Register(hex);
+        OnReactivation(this, new DestructionEventArgs(hex));
+    }
+
+    public void DestroyHex(Hex hex)
+    {
+        _positions.Remove(hex);
+        OnDestruction(this, new DestructionEventArgs(hex));
+    }
+
+    public void DestroyHexes(List<Hex> hexes)
+        => hexes.ForEach(h => DestroyHex(h));
+
+    // ===================== BOMB STUFF =============================
 
     public List<Hex> GetAllPositions()
     {
@@ -90,6 +121,14 @@ public class Grid
                 return hex;
         }
         throw new Exception("Failed to find a random hex.");
+    }
+
+    public void Register(Hex position)
+    {
+        string[] coordDelim = position.gameObject.name.Split('^');
+        var coords = new HexCoords(int.Parse(coordDelim[1]), int.Parse(coordDelim[2]), int.Parse(coordDelim[3]));
+
+        Register(coords, position);
     }
 
     public void Register(HexCoords coords, Hex position)

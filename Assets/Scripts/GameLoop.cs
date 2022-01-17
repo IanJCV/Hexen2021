@@ -45,6 +45,9 @@ public class GameLoop : SingletonMonoBehaviour<GameLoop>
         _board.Moved += OnPieceMoved;
         _board.Taken += OnPieceTaken;
 
+        _grid.OnDestruction += OnTileDestroyed;
+        _grid.OnReactivation += OnTileReactivated;
+
         _playerHand = new PlayerHand();
         _playerHand.cardsInHand.ForEach(card =>
         {
@@ -55,6 +58,18 @@ public class GameLoop : SingletonMonoBehaviour<GameLoop>
 
         ConnectHexes();
         GeneratePieces();
+    }
+
+    private void OnTileDestroyed(object sender, DestructionEventArgs e)
+    {
+
+        e.Hex.gameObject.SetActive(false);
+    }
+
+    private void OnTileReactivated(object sender, DestructionEventArgs e)
+    {
+
+        e.Hex.gameObject.SetActive(true);
     }
 
     private void GeneratePieces()
@@ -93,10 +108,8 @@ public class GameLoop : SingletonMonoBehaviour<GameLoop>
         var hexes = FindObjectsOfType<Hex>();
         foreach (var h in hexes)
         {
-            string[] coordDelim = h.gameObject.name.Split('^');
-            var coords = new HexCoords(int.Parse(coordDelim[1]), int.Parse(coordDelim[2]), int.Parse(coordDelim[3]));
 
-            _grid.Register(coords, h);
+            _grid.Register(h);
 
             h.OnDropped += OnHexDrop;
             h.OnEnter += OnHexHover;

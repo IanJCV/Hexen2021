@@ -387,3 +387,47 @@ public class PushbackMove : MoveBase
             .ToList();
     }
 }
+
+public class BombMove : MoveBase
+{
+    public BombMove(Grid grid, Board board) : base(grid, board)
+    {
+        _grid = grid;
+        _board = board;
+    }
+
+    public override void ExecuteMove(Card c, List<Hex> positions, Board b, Grid g)
+    {
+        foreach (var p in positions)
+        {
+            if (b.TryGetPieceAt(p, out var piece))
+            {
+                b.Take(piece);
+            }
+        }
+    }
+
+    public override List<Hex> ValidIsolatedPositions(Card c, Hex position, Board b, Grid g)
+    {
+        return new BombMove(g, b)
+       .IsolatedNorthEast(position)
+       .IsolatedNorthWest(position)
+       .IsolatedSouthEast(position)
+       .IsolatedSouthWest(position)
+       .IsolatedEast(position)
+       .IsolatedWest(position)
+       .Collect();
+    }
+
+    public override List<Hex> ValidPositions(Card c, Hex position, Board b, Grid g)
+    {
+        return new BombMove(g, b)
+       .NorthEast(position)
+       .NorthWest(position)
+       .SouthEast(position)
+       .SouthWest(position)
+       .East(position)
+       .West(position)
+       .Collect();
+    }
+}
