@@ -5310,6 +5310,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 6160078544779370520, guid: 7e8eb38cab0ef9d46b86a9a774af97c2, type: 3}
   piecePrefab: {fileID: 8782536664189460272, guid: 9dc03e632ee1a754bb224867bb0896e7, type: 3}
   playerPrefab: {fileID: 8819553438005917442, guid: 7507bfc123f800e4984461b9ad17a7c2, type: 3}
+  gameSettings: {fileID: 11400000, guid: 04b9086594d5f5947a028f4f076efbea, type: 2}
   player: {fileID: 0}
   _artSet: {fileID: 11400000, guid: b0aa804c2def9544db3c1f0864573076, type: 2}
 --- !u!4 &1620718211

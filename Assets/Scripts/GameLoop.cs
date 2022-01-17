@@ -65,6 +65,12 @@ public class GameLoop : SingletonMonoBehaviour<GameLoop>
         GeneratePieces();
         */
 
+        gameSettings.cardHolder = cardHolder;
+        gameSettings.cardPrefab = cardPrefab;
+        gameSettings.piecePrefab = piecePrefab;
+        gameSettings.playerPrefab = playerPrefab;
+        gameSettings.artSet = _artSet;
+
         _currentGameState = new StartScreenState(this);
         _currentGameState.OnStateChange += OnStateChanged;
         _currentGameState.Active = true;

@@ -25,7 +25,10 @@ public abstract class GameState
         set 
         { 
             _active = value;
-            Activate();
+            if (_active == true)
+                Activate();
+            else
+                Deactivate();
         }
     }
 
@@ -316,20 +319,4 @@ public class EndScreenState : GameState
 
     private void RestartGame()
         => OnChange(new StartScreenState(_loop));
-}
-
-public class GameSettings : ScriptableObject
-{
-    [SerializeField]
-    public GameObject cardHolder;
-    [SerializeField]
-    public GameObject cardPrefab;
-    [SerializeField]
-    public GameObject piecePrefab;
-    [SerializeField]
-    public GameObject playerPrefab;
-    [SerializeField]
-    public int gridSize = 5;
-    [SerializeField]
-    public CardArtSet artSet;
 }
